@@ -17,6 +17,6 @@ class CellViewController: UIViewController {
             customCell.contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
 
-        customCell.configure(with: Pokemon.mock())
+//        customCell.configure(with: Pokemon.mock())
     }
 }

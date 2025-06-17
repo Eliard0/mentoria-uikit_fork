@@ -25,6 +25,47 @@ enum PokemonType: String, Codable {
         return self.rawValue.capitalized
     }
     
+    func getTitleBR() -> String {
+            switch self {
+            case .normal:
+                return "Normal"
+            case .fire:
+                return "Fogo"
+            case .water:
+                return "Água"
+            case .electric:
+                return "Elétrico"
+            case .grass:
+                return "Planta"
+            case .ice:
+                return "Gelo"
+            case .fighting:
+                return "Lutador"
+            case .poison:
+                return "Venenoso"
+            case .ground:
+                return "Terrestre"
+            case .flying:
+                return "Voador"
+            case .psychic:
+                return "Psíquico"
+            case .bug:
+                return "Inseto"
+            case .rock:
+                return "Pedra"
+            case .ghost:
+                return "Fantasma"
+            case .dragon:
+                return "Dragão"
+            case .dark:
+                return "Sombrio"
+            case .steel:
+                return "Aço"
+            case .fairy:
+                return "Fada"
+            }
+        }
+    
     func getColor() -> UIColor {
         switch self {
         case .normal:
