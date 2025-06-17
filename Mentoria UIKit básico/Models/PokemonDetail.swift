@@ -1,3 +1,5 @@
+import Foundation
+
 struct PokemonDetail: Decodable {
     let id: Int
     let name: String

@@ -1,20 +1,15 @@
-//
-//  AbilitiesView.swift
-//  Mentoria UIKit básico
-//
-//  Created by Eliardo Venancio on 04/06/25.
-//
-
 import UIKit
 
 class PokemonMovesView: UIView, UITableViewDataSource, UITableViewDelegate {
     
-    private var moves: [PokemonMove] = []
+    private var moves: [String] = []
     
     private let tableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tv.isScrollEnabled = false
+        tv.separatorStyle = .none
         return tv
     }()
     
@@ -40,7 +35,7 @@ class PokemonMovesView: UIView, UITableViewDataSource, UITableViewDelegate {
         ])
     }
     
-    func configure(with moves: [PokemonMove]) {
+    public func configure(with moves: [String]) {
         self.moves = moves
         tableView.reloadData()
     }
@@ -50,9 +45,10 @@ class PokemonMovesView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let move = moves[indexPath.row]
+        let moveName = moves[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = move.move.name.capitalized
+        cell.textLabel?.text = moveName
+        cell.selectionStyle = .none 
         return cell
     }
 }

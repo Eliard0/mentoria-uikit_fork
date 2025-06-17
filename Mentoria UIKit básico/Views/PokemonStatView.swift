@@ -1,15 +1,8 @@
-//
-//  PokemonStat.swift
-//  Mentoria UIKit básico
-//
-//  Created by Eliardo Venancio on 04/06/25.
-//
-
 import UIKit
 
 class PokemonStatsView: UIView, UITableViewDataSource, UITableViewDelegate {
     
-    private var stats: [PokemonStat] = []
+    private var stats: [PokemonStatDisplayData] = []
     private var currentTypeColor: UIColor = .systemBlue
     
     private let tableView: UITableView = {
@@ -18,6 +11,7 @@ class PokemonStatsView: UIView, UITableViewDataSource, UITableViewDelegate {
         tv.register(StatCell.self, forCellReuseIdentifier: "StatCell")
         tv.isScrollEnabled = false
         tv.separatorStyle = .none
+        tv.rowHeight = 30
         return tv
     }()
     
@@ -43,14 +37,9 @@ class PokemonStatsView: UIView, UITableViewDataSource, UITableViewDelegate {
         ])
     }
     
-    func configure(with stats: [PokemonStat], color: UIColor) {
+    public func configure(with stats: [PokemonStatDisplayData], color: UIColor) {
         self.stats = stats
         self.currentTypeColor = color
-        tableView.reloadData()
-    }
-    
-    func configure(with stats: [PokemonStat]) {
-        self.stats = stats
         tableView.reloadData()
     }
     
@@ -59,9 +48,12 @@ class PokemonStatsView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let stat = stats[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as! StatCell
-        cell.configure(with: stat, color: currentTypeColor)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "StatCell", for: indexPath) as? StatCell else {
+            return UITableViewCell()
+        }
+        let statDisplayData = stats[indexPath.row]
+        cell.configure(with: statDisplayData, color: currentTypeColor)
+        cell.selectionStyle = .none
         return cell
     }
 }

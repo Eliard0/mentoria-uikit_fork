@@ -1,9 +1,9 @@
 import UIKit
 
 class PokemonDetailView: UIView {
-    private var currentTypeColor: UIColor = .black
-    private var moves: [PokemonMove] = []
-    private var stats: [PokemonStat] = []
+    
+    private var currentTypeColor: UIColor = .systemGray
+    
     private lazy var movesView = PokemonMovesView()
     private lazy var statsView = PokemonStatsView()
     
@@ -22,10 +22,14 @@ class PokemonDetailView: UIView {
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOffset = CGSize(width: 0, height: 1)
+        view.layer.shadowRadius = 4
         return view
     }()
     
-    private let imageView: UIImageView = {
+    private let pokemonImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +39,6 @@ class PokemonDetailView: UIView {
         iv.layer.shadowOpacity = 0.2
         iv.layer.shadowOffset = CGSize(width: 0, height: 2)
         iv.layer.shadowRadius = 4
-        
         return iv
     }()
     
@@ -44,6 +47,15 @@ class PokemonDetailView: UIView {
         label.font = UIFont.boldSystemFont(ofSize: 28)
         label.textAlignment = .center
         label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let numberLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textAlignment = .center
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -110,7 +122,6 @@ class PokemonDetailView: UIView {
         card.translatesAutoresizingMaskIntoConstraints = false
         card.backgroundColor = .white
         card.clipsToBounds = true
-        
         return card
     }()
     
@@ -121,7 +132,6 @@ class PokemonDetailView: UIView {
         label.textAlignment = .center
         label.isUserInteractionEnabled = true
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        
         return label
     }()
     
@@ -132,7 +142,6 @@ class PokemonDetailView: UIView {
         label.isUserInteractionEnabled = true
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        
         return label
     }()
     
@@ -150,8 +159,9 @@ class PokemonDetailView: UIView {
     
     private lazy var mainStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
-            imageView,
+            pokemonImageView,
             nameLabel,
+            numberLabel,
             typeStackView,
             infoStackView
         ])
@@ -165,7 +175,7 @@ class PokemonDetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-        setConstrants()
+        setConstraints()
         
         movesLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapMoves)))
         statsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStats)))
@@ -195,35 +205,68 @@ class PokemonDetailView: UIView {
         applyTopCurveMask(to: cardTwoDetail)
     }
     
-    func configure(with pokemonDetail: PokemonDetail) {
-        nameLabel.text = pokemonDetail.name
-        imageView.image = UIImage(named: pokemonDetail.imageUrl)
-        typeLabel.text = pokemonDetail.types.map { $0.getTitleBR() }.joined(separator: ", ")
-        heightLabel.text = "Altura: \(pokemonDetail.height)m"
-        weightLabel.text = "Peso: \(pokemonDetail.weight)kg"
-        moves = pokemonDetail.moves
-        stats = pokemonDetail.stats
+    public func configure(with displayData: PokemonDetailDisplayData) {
+        nameLabel.text = displayData.name
+        numberLabel.text = displayData.number
+        typeLabel.text = displayData.types.map { $0.title }.joined(separator: ", ")
+        heightLabel.text = displayData.height
+        weightLabel.text = displayData.weight
         
-        if let primaryType = pokemonDetail.types.first {
-            typeLabel.backgroundColor = primaryType.getColor()
-            backgroundColor = primaryType.getColor()
-            currentTypeColor = primaryType.getColor()
+        if let primaryType = displayData.types.first {
+            typeLabel.backgroundColor = primaryType.color
+            backgroundColor = primaryType.color
+            currentTypeColor = primaryType.color
+        } else {
+            typeLabel.backgroundColor = .systemGray
+            backgroundColor = .systemBackground
+            currentTypeColor = .systemGray
+        }
+    
+        pokemonImageView.image = UIImage(systemName: "photo")
+        if let imageUrl = URL(string: displayData.imageUrl) {
+            loadImage(from: imageUrl, for: pokemonImageView, placeholder: UIImage(systemName: "photo")!)
+        } else {
+            pokemonImageView.image = UIImage(systemName: "exclamationmark.triangle.fill")
         }
         
-        if let imageUrl = URL(string: pokemonDetail.imageUrl) {
-            loadImage(from: imageUrl)
-        }
+        movesView.configure(with: displayData.moves)
+        statsView.configure(with: displayData.stats, color: currentTypeColor)
         
-        movesView.configure(with: moves)
-        statsView.configure(with: stats, color: currentTypeColor)
         updateTabSelection()
     }
     
-    private func loadImage(from url: URL) {
-        URLSession.shared.dataTask(with: url) { data, _, _ in
-            guard let data, let image = UIImage(data: data) else { return }
+    private func loadImage(from url: URL, for imageView: UIImageView, placeholder: UIImage) {
+        imageView.image = placeholder
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Erro ao carregar imagem para detalhes: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    imageView.image = UIImage(systemName: "exclamationmark.triangle.fill")
+                }
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Erro de status HTTP ao carregar imagem para detalhes: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+                DispatchQueue.main.async {
+                    imageView.image = UIImage(systemName: "exclamationmark.triangle.fill")
+                }
+                return
+            }
+
+            guard let data = data, let image = UIImage(data: data) else {
+                print("Dados de imagem inválidos para detalhes.")
+                DispatchQueue.main.async {
+                    imageView.image = UIImage(systemName: "xmark.circle.fill")
+                }
+                return
+            }
+            
             DispatchQueue.main.async {
-                self.imageView.image = image
+                imageView.image = image
             }
         }.resume()
     }
@@ -262,13 +305,10 @@ class PokemonDetailView: UIView {
             movesLabel.textColor = currentTypeColor
             movesLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
             movesView.isHidden = false
-            statsView.isHidden = true
-            
             
         case .stats:
             statsLabel.textColor = currentTypeColor
             statsLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-            movesView.isHidden = true
             statsView.isHidden = false
         }
     }
@@ -281,12 +321,13 @@ class PokemonDetailView: UIView {
         selectedTab = .stats
     }
     
-    private func setConstrants(){
+    private func setConstraints(){
         NSLayoutConstraint.activate([
+            
             cardView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
             cardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             cardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            cardView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
+          
         ])
         
         NSLayoutConstraint.activate([
@@ -297,13 +338,13 @@ class PokemonDetailView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: 200),
-            imageView.widthAnchor.constraint(equalToConstant: 200)
+            pokemonImageView.heightAnchor.constraint(equalToConstant: 200),
+            pokemonImageView.widthAnchor.constraint(equalToConstant: 200)
         ])
         
         NSLayoutConstraint.activate([
             typeLabel.heightAnchor.constraint(equalToConstant: 30),
-            typeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 200)
+            typeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 80)
         ])
         
         NSLayoutConstraint.activate([
@@ -316,18 +357,18 @@ class PokemonDetailView: UIView {
         NSLayoutConstraint.activate([
             infoDetailStackView.topAnchor.constraint(equalTo: cardTwoDetail.topAnchor, constant: 40),
             infoDetailStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            infoDetailStackView.bottomAnchor.constraint(lessThanOrEqualTo: cardTwoDetail.bottomAnchor, constant: -20)
+          
         ])
-        
+   
         NSLayoutConstraint.activate([
-            movesView.topAnchor.constraint(equalTo: cardTwoDetail.topAnchor, constant: 80),
+            movesView.topAnchor.constraint(equalTo: infoDetailStackView.bottomAnchor, constant: 20),
             movesView.leadingAnchor.constraint(equalTo: cardTwoDetail.leadingAnchor, constant: 20),
             movesView.trailingAnchor.constraint(equalTo: cardTwoDetail.trailingAnchor, constant: -20),
             movesView.bottomAnchor.constraint(equalTo: cardTwoDetail.bottomAnchor, constant: -20),
         ])
         
         NSLayoutConstraint.activate([
-            statsView.topAnchor.constraint(equalTo: cardTwoDetail.topAnchor, constant: 80),
+            statsView.topAnchor.constraint(equalTo: infoDetailStackView.bottomAnchor, constant: 20),
             statsView.leadingAnchor.constraint(equalTo: cardTwoDetail.leadingAnchor, constant: 20),
             statsView.trailingAnchor.constraint(equalTo: cardTwoDetail.trailingAnchor, constant: -20),
             statsView.bottomAnchor.constraint(equalTo: cardTwoDetail.bottomAnchor, constant: -20),
