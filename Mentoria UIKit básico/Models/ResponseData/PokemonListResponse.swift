@@ -1,5 +1,4 @@
 import Foundation
-// import UIKit // UIKit não é necessário neste arquivo, pois ele lida apenas com dados de rede
 
 struct PokemonListResponse: Decodable {
     let results: [PokemonResponse]
@@ -7,25 +6,24 @@ struct PokemonListResponse: Decodable {
 
 struct PokemonResponse: Decodable {
     let name: String
-    let url: String // Renomeado para 'url' para corresponder ao JSON da API
+    let url: String
 
     private enum CodingKeys: String, CodingKey {
         case name
-        case url = "url" // Mapeia "url" do JSON para a propriedade 'url'
+        case url = "url"
     }
 
-    // Mapeia o DTO (PokemonResponse) para o modelo de domínio (Pokemon)
     func toDomainModel() -> Pokemon {
         let number = url.extractPokemonNumber() ?? 0
         let pokemonImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(number).png"
-        let detailApiUrl: URL? = URL(string: url) // Mapeia para o URL de detalhe no modelo de domínio
+        let detailApiUrl: URL? = URL(string: url)
 
         return Pokemon(
-            id: number, // O 'id' do modelo de domínio é o número do Pokémon
+            id: number,
             name: name.capitalized,
             number: number,
-            imageUrl: pokemonImageUrl, // Passando a propriedade imageUrl
-            detailApiUrl: detailApiUrl // Passando a propriedade detailApiUrl
+            imageUrl: pokemonImageUrl,
+            detailApiUrl: detailApiUrl
         )
     }
 }

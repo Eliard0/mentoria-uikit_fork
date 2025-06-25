@@ -1,7 +1,7 @@
 import UIKit
 
 class PokemonTableViewCell: UITableViewCell {
-    private lazy var cardView: UIView = {
+    lazy var cardView: UIView = {
         let card = UIView()
         card.translatesAutoresizingMaskIntoConstraints = false
         card.backgroundColor = .white
@@ -13,7 +13,7 @@ class PokemonTableViewCell: UITableViewCell {
         return card
     }()
 
-    private lazy var pokemonImageView: UIImageView = {
+    lazy var pokemonImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -22,7 +22,7 @@ class PokemonTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private lazy var nameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 18)
@@ -30,7 +30,7 @@ class PokemonTableViewCell: UITableViewCell {
         return label
     }()
 
-    private lazy var numberLabel: UILabel = {
+    lazy var numberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14)

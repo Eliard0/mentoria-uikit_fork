@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		E9CBEAB02E0C77F5005CC1EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2566C91A2D835C0500EA55E9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2566C9212D835C0500EA55E9;
+			remoteInfo = "Mentoria UIKit básico";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2566C9222D835C0500EA55E9 /* Mentoria UIKit básico.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mentoria UIKit básico.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9CBEAAC2E0C77F5005CC1EA /* Mentoria UIKit básicoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mentoria UIKit básicoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -29,10 +40,22 @@
 			path = "Mentoria UIKit básico";
 			sourceTree = "<group>";
 		};
+		E9CBEAAD2E0C77F5005CC1EA /* Mentoria UIKit básicoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Mentoria UIKit básicoTests";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2566C91F2D835C0500EA55E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9CBEAA92E0C77F5005CC1EA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				2566C9242D835C0500EA55E9 /* Mentoria UIKit básico */,
+				E9CBEAAD2E0C77F5005CC1EA /* Mentoria UIKit básicoTests */,
 				2566C9232D835C0500EA55E9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				2566C9222D835C0500EA55E9 /* Mentoria UIKit básico.app */,
+				E9CBEAAC2E0C77F5005CC1EA /* Mentoria UIKit básicoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +108,29 @@
 			productReference = 2566C9222D835C0500EA55E9 /* Mentoria UIKit básico.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E9CBEAAB2E0C77F5005CC1EA /* Mentoria UIKit básicoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9CBEAB42E0C77F5005CC1EA /* Build configuration list for PBXNativeTarget "Mentoria UIKit básicoTests" */;
+			buildPhases = (
+				E9CBEAA82E0C77F5005CC1EA /* Sources */,
+				E9CBEAA92E0C77F5005CC1EA /* Frameworks */,
+				E9CBEAAA2E0C77F5005CC1EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9CBEAB12E0C77F5005CC1EA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				E9CBEAAD2E0C77F5005CC1EA /* Mentoria UIKit básicoTests */,
+			);
+			name = "Mentoria UIKit básicoTests";
+			packageProductDependencies = (
+			);
+			productName = "Mentoria UIKit básicoTests";
+			productReference = E9CBEAAC2E0C77F5005CC1EA /* Mentoria UIKit básicoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -90,11 +138,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					2566C9212D835C0500EA55E9 = {
 						CreatedOnToolsVersion = 16.2;
+					};
+					E9CBEAAB2E0C77F5005CC1EA = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 2566C9212D835C0500EA55E9;
 					};
 				};
 			};
@@ -113,12 +165,20 @@
 			projectRoot = "";
 			targets = (
 				2566C9212D835C0500EA55E9 /* Mentoria UIKit básico */,
+				E9CBEAAB2E0C77F5005CC1EA /* Mentoria UIKit básicoTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2566C9202D835C0500EA55E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9CBEAAA2E0C77F5005CC1EA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +195,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E9CBEAA82E0C77F5005CC1EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E9CBEAB12E0C77F5005CC1EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2566C9212D835C0500EA55E9 /* Mentoria UIKit básico */;
+			targetProxy = E9CBEAB02E0C77F5005CC1EA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2566C9362D835C0700EA55E9 /* Debug */ = {
@@ -311,6 +386,42 @@
 			};
 			name = Release;
 		};
+		E9CBEAB22E0C77F5005CC1EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "frist.Mentoria-UIKit-ba-sicoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mentoria UIKit básico.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Mentoria UIKit básico";
+			};
+			name = Debug;
+		};
+		E9CBEAB32E0C77F5005CC1EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "frist.Mentoria-UIKit-ba-sicoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mentoria UIKit básico.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Mentoria UIKit básico";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -328,6 +439,15 @@
 			buildConfigurations = (
 				2566C9362D835C0700EA55E9 /* Debug */,
 				2566C9372D835C0700EA55E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9CBEAB42E0C77F5005CC1EA /* Build configuration list for PBXNativeTarget "Mentoria UIKit básicoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9CBEAB22E0C77F5005CC1EA /* Debug */,
+				E9CBEAB32E0C77F5005CC1EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
