@@ -1,6 +1,6 @@
 # Pokedex App - UIKit
 
-Este é um aplicativo que foi feito em uma mentoria atravez do ifce para desenvolvedores ios para desenvolver habilidades com UIKit e desenvolvimento de testes unitarios com XCTest 
+Este é um fork que feito em uma mentoria atravez do ifce para desenvolvedores ios para desenvolver habilidades com UIKit e desenvolvimento de testes unitarios com XCTest.
 
 ## Tecnologias Utilizadas
 
